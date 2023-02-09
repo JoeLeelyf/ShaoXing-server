@@ -27,6 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     "django-59g2-28953-7-1308482024.sh.run.tcloudbase.com",
+    "127.0.0.1",
 ]
 
 
