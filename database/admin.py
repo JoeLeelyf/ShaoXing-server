@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import police , career
+from .models import policy , career, tech
 # Register your models here.
-admin.site.register(police)
+admin.site.register(policy)
 admin.site.register(career)
+admin.site.register(tech)
