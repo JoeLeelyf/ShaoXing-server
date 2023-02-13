@@ -55,22 +55,22 @@ def gonxuList(request):
         "message":[
         {
             "name_cn":"找政策",
-            "name_en":"findPolicy",
+            "name_en":"findpolicy",
             "image_src":"https://prod-6g0a1d1h5dcb92d9-1308482024.tcloudbaseapp.com/icon/%E6%94%BF%E7%AD%96.png?sign=d84ea4024b51a26791e3105e9f46bb1f&t=1676291583",
         },
         {
             "name_cn":"找职业",
-            "name_en":"findJob",
+            "name_en":"findjob",
             "image_src":"https://prod-6g0a1d1h5dcb92d9-1308482024.tcloudbaseapp.com/icon/%E4%BC%81%E4%B8%9A.png?sign=4beef620d89a360be6d86d30654af02e&t=1676291609"
         },
         {
             "name_cn":"找人才",
-            "name_en":"findPersonnel",
+            "name_en":"findpersonnel",
             "image_src":"https://prod-6g0a1d1h5dcb92d9-1308482024.tcloudbaseapp.com/icon/%E4%BA%BA%E6%89%8D%E6%B5%81%E5%8A%A8%E3%80%81%E4%BA%BA%E6%89%8D%E5%87%BA%E5%85%A5%E5%A2%83.png?sign=53655de35dcad48515981ecc35f2a1b7&t=1676291625"
         },
         {
             "name_cn":"找技术",
-            "name_en":"findTech",
+            "name_en":"findtech",
             "image_src":"https://prod-6g0a1d1h5dcb92d9-1308482024.tcloudbaseapp.com/icon/%E6%8A%80%E6%9C%AF%E6%9C%8D%E5%8A%A1.png?sign=91c3bcaec9a52cbd03dbf3eb1ec5558f&t=1676291650"
         }
     ],
