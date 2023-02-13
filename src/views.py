@@ -6,25 +6,20 @@ import json
 def swiperList(request):
     res = {
         "message": [
-            {
-                "image_src": "",
-                "open_type":"navigate"
-            },
-            {
-                "image_src": "",
-                "open_type":"navigate"
-            },
-            {
-                "image_src": "",
-                "open_type":"navigate"
-            },
-        ],
-        "meta": [
-            {
+        {
+            "image_src": "https://static.botue.com/ugo/uploads/banner1.png"
+        },
+        {
+            "image_src": "https://static.botue.com/ugo/uploads/banner2.png"
+        },
+        {
+            "image_src": "https://static.botue.com/ugo/uploads/banner3.png"
+        }
+    ],
+        "meta": {
                 "msg":"获取成功",
                 "status":200
-            },
-        ],
+        },
     }
     res= json.dumps(res)
     return HttpResponse(res)
@@ -47,12 +42,10 @@ def noticeList(request):
             "notice_content": "balabala"
         }
     ],
-        "meta": [
-            {
+        "meta": {
                 "msg":"获取成功",
                 "status":200
-            },
-        ],
+        },
     }
     res= json.dumps(res)
     return HttpResponse(res)
@@ -81,12 +74,10 @@ def gonxuList(request):
             "image_src":"https://static.botue.com/ugo/uploads/icon_index_nav_1@2x.png"
         }
     ],
-        "meta": [
-            {
+        "meta": {
                 "msg":"获取成功",
                 "status":200
-            },
-        ],
+        },
     }
     res= json.dumps(res)
     return HttpResponse(res)
@@ -110,12 +101,10 @@ def centerList(request):
             "image_src":"https://static.botue.com/ugo/uploads/icon_index_nav_2@2x.png"
         }
     ],
-        "meta": [
-            {
+        "meta": {
                 "msg":"获取成功",
                 "status":200
-            },
-        ],
+        },
     }
     res= json.dumps(res)
     return HttpResponse(res)
