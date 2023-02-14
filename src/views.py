@@ -1,5 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+
+from .models import notice
+
 import json
 # Create your views here.
 
@@ -24,24 +27,18 @@ def swiperList(request):
     res= json.dumps(res)
     return HttpResponse(res)
 
-def noticeList(request):
-    res = {
-        "message": [
-        {
-            "notice_id": 1,
-            "notice_title": "英文简写",
-            "notice_content": "balabala"
-        },
-        {
-            "notice_id": 2,
-            "notice_title": "英文简写",
-            "notice_content": "balabala"
-        },        {
-            "notice_id": 3,
-            "notice_title": "英文简写",
-            "notice_content": "balabala"
+def getNoticeList(request):
+    last_notice_list = notice.objects.all().order_by('-id')[:3]
+    mes_list=[]
+    for i in last_notice_list:
+        mes = {
+            "notice_id":i.id,
+            "notice_title":i.title,
+            "notice_content":i.content
         }
-    ],
+        mes_list.append(mes)
+    res = {
+        "message": mes_list,
         "meta": {
                 "msg":"获取成功",
                 "status":200
