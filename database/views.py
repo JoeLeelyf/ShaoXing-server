@@ -8,7 +8,7 @@ import json
 
 def getPolicyList(request):
     if request.method == 'POST':
-        _page = int(request.POST.get('_page',0))
+        _page = int(request.POST.get('_page',1))
         _pageSize = int(request.POST.get('_pageSize',10))
     else:
         return HttpResponse("Wrong request method!")
