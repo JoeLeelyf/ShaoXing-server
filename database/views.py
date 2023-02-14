@@ -8,8 +8,9 @@ import json
 
 def getPolicyList(request):
     if request.method == 'POST':
-        _page = int(request.POST.get('_page',1))
-        _pageSize = int(request.POST.get('_pageSize',10))
+        rec = json.loads(request.body)
+        _page = int(rec['_page'])
+        _pageSize = int(rec['_pageSize'])
     else:
         return HttpResponse("Wrong request method!")
     last_policy_list = policy.objects.all().order_by('-time')[(_page-1)*_pageSize:_page*_pageSize]
@@ -49,8 +50,9 @@ def getPolicyDetail(requst):
 
 def getCareerList(request):
     if request.method == 'POST':
-        _page = int(request.POST.get('_page',1))
-        _pageSize = int(request.POST.get('_pageSize',10))
+        rec = json.loads(request.body)
+        _page = int(rec['_page'])
+        _pageSize = int(rec['_pageSize'])
     else:
         return HttpResponse("Wrong request method!")
     last_career_list = career.objects.all().order_by('-time')[(_page-1)*_pageSize:_page*_pageSize]
@@ -90,8 +92,9 @@ def getCareerDetail(request):
 
 def getTechList(request):
     if request.method == 'POST':
-        _page = int(request.POST.get('_page',1))
-        _pageSize = int(request.POST.get('_pageSize',10))
+        rec = json.loads(request.body)
+        _page = int(rec['_page'])
+        _pageSize = int(rec['_pageSize'])
     else:
         return HttpResponse("Wrong request method!")
     last_tech_list = tech.objects.all().order_by('-time')[(_page-1)*_pageSize:_page*_pageSize]
