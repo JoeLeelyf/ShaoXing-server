@@ -28,11 +28,12 @@ class UserData(APIView):
 # 微信登录
 class WeixinLogin(APIView):
     def post(self, request, format=None):
+        print('Post data: ', request.data)
         """
         提供 post 请求
         """
         # 从请求中获得code
-        code = json.loads(request.body).get('code')
+        code = request.data['code']
 
         # 填写你的测试号密钥
         appid = 'wx6bd62a30b5e36cae'
@@ -41,7 +42,9 @@ class WeixinLogin(APIView):
         base_url = 'https://api.weixin.qq.com/sns/jscode2session'
         # 实际请求
         url = base_url + "?appid=" + appid + "&secret=" + appsecret + "&js_code=" + code + "&grant_type=authorization_code"
-        response = requests.get(url)
+        print(url)
+        response = requests.get(url, verify=False)
+        print(response.json())
         # 处理获取的 openid 
         try:
             openid = response.json()['openid']
@@ -65,10 +68,7 @@ class WeixinLogin(APIView):
                     password=openid
                 )
 
-            refresh = RefreshToken.for_user(user)
-
             return Response({
                     'code': 'success',
-                    'refresh': str(refresh),
-                    'access': str(refresh.access_token)
+                    'access': openid,
                 })
