@@ -34,7 +34,7 @@ class WeixinLogin(APIView):
         """
         # 从请求中获得code
         code = request.data['code']
-
+        print(code)
         # 填写你的测试号密钥
         appid = 'wx6bd62a30b5e36cae'
         appsecret = 'b05fca3ef020639b5acfae61b2678310'
