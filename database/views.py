@@ -326,8 +326,8 @@ def getJobCommentList(request):
     res = {
         "message":comment_list,
         "meta":{
-        "msg":"获取成功",
-        "status":200
+            "msg":"获取成功",
+            "status":200
         }
     }
     res = json.dumps(res, default=str)
@@ -346,9 +346,9 @@ def updateComment(request,isPolicy:bool):
 
     if status == 1:
         status = -1
-    elif isPolicy and status == 1:
+    elif isPolicy and status == 0:
         status = 0
-    elif not isPolicy and status == 1:
+    elif not isPolicy and status == 0:
         status = 1
     else:
         return HttpResponse("ERROR!")
@@ -365,7 +365,7 @@ def updateComment(request,isPolicy:bool):
     return HttpResponse(res)
 
 def updatePolicyComment(request):
-    return updateComment(request, 1)
+    return updateComment(request, True)
 
 def updateJobComment(request):
-    return updateComment(request, 0)
+    return updateComment(request, False)
