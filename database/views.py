@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 
-from .models import policy , career, tech, wxUser
+from .models import policy , career, tech, wxUser, comment
 
 import json
 # Create your views here.
@@ -270,3 +270,47 @@ def getPersonnelDetail(request):
     res = json.dumps(res, default=str)
     return HttpResponse(res)
     
+
+# ========================================================
+def getCommentList(status):
+    pass
+
+def getPolicyCommentList(request):
+    if request.method == 'POST':
+        rec = json.loads(request.body)
+        _id = int(rec['id'])
+    else:
+        return HttpResponse("Wrong request method!")
+    comment_list = getCommentList(0)
+    res = {
+        "message":comment_list,
+        "meta":{
+        "msg":"获取成功",
+        "status":200
+        }
+    }
+    res = json.dumps(res, default=str)
+    return HttpResponse(res)
+
+def getJobCommentList(request):
+    if request.method == 'POST':
+        rec = json.loads(request.body)
+        _id = int(rec['id'])
+    else:
+        return HttpResponse("Wrong request method!")
+    comment_list = getCommentList(1)
+    res = {
+        "message":comment_list,
+        "meta":{
+        "msg":"获取成功",
+        "status":200
+        }
+    }
+    res = json.dumps(res, default=str)
+    return HttpResponse(res)
+
+def updatePolicyComment(request):
+    pass
+
+def updateJobComment(request):
+    pass

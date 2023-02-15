@@ -11,4 +11,8 @@ urlpatterns = [
     path('personnel/detail', views.getPersonnelDetail, name='personnelDetail'),
     path('tech/list', views.getTechList, name='techList'),
     path('tech/detail', views.getTechDetail, name='techDetail'),
+    path('comment/policy/list', views.getPolicyCommentList,name='policyCommentList'),
+    path('comment/job/list', views.getJobCommentList,name='jobCommentList'),
+    path('comment/policy/update', views.updatePolicyComment, name='updatePolicyComment'),
+    path('comment/job/update', views.updateJobComment, name='updateJobComment')
 ]

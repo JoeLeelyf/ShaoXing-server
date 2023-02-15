@@ -24,7 +24,7 @@ class career(models.Model):
     jobinfo = models.CharField(max_length=255)
     contactor = models.CharField(max_length=255)
     phone = models.CharField(max_length=255)
-    email = models.CharField(max_length=255,blank=True)
+    email = models.EmailField(max_length=255,blank=True)
     companyname = models.CharField(max_length=255)
     companyinfo = models.CharField(max_length=255)
     class Meta:
@@ -48,6 +48,7 @@ class tech(models.Model):
 
 class wxUser(models.Model):
     id = models.IntegerField(primary_key=True)
+    avatarUrl = models.URLField(max_length=255)
     phone = models.CharField(max_length=30, blank=False, unique=True)
     name = models.CharField(max_length=30, blank=False)
     nickname = models.CharField(max_length=30, blank=True)
@@ -76,3 +77,16 @@ class wxUser(models.Model):
         return self.name
     
     
+class comment(models.Model):
+    id = models.IntegerField(primary_key=True)
+    status = models.IntegerField(default=-1,choices=((-1,'comment'),(0,'policy'),(1,'job')))
+    foreignid = models.IntegerField()
+    commenterid = models.IntegerField()
+    time = models.DateTimeField(default=datetime.datetime.now)
+    content = models.TextField()
+    
+    class Meta:
+        db_table = 'comment'
+    
+    def __str__(self):
+        return self.content
