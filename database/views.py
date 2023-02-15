@@ -214,24 +214,24 @@ def getPersonnelDetail(request):
     else:
         return HttpResponse('Wrong request method!')
     personnel_detail = wxUser.objects.get(id=_id)
-    personnel_name = wxUser.name
-    personnel_gender = wxUser.gender
-    personnel_age = wxUser.age
-    personnel_hometown = wxUser.hometown
-    personnel_place = wxUser.place
-    personnel_trade = wxUser.trade
-    personnel_position = wxUser.position
-    personnel_salary = wxUser.salary
-    personnel_education = wxUser.education
-    personnel_school = wxUser.school
-    personnel_positionaltitle = wxUser.positionaltitle
-    personnel_countryposition = wxUser.countryposition
-    personnel_field = wxUser.field
-    personnel_majorcate = wxUser.majorate
-    personnel_abroad = wxUser.abroad
-    personnel_experience = wxUser.experience
-    personnel_experiences = wxUser.experiences
-    personnel_honors = wxUser.honors
+    personnel_name = personnel_detail.name
+    personnel_gender = personnel_detail.gender
+    personnel_age = personnel_detail.age
+    personnel_hometown = personnel_detail.hometown
+    personnel_place = personnel_detail.place
+    personnel_trade = personnel_detail.trade
+    personnel_position = personnel_detail.position
+    personnel_salary = personnel_detail.salary
+    personnel_education = personnel_detail.education
+    personnel_school = personnel_detail.school
+    personnel_positionaltitle = personnel_detail.positionaltitle
+    personnel_countryposition = personnel_detail.countryposition
+    personnel_field = personnel_detail.field
+    personnel_majorcate = personnel_detail.majorate
+    personnel_abroad = personnel_detail.abroad
+    personnel_experience = personnel_detail.experience
+    personnel_experiences = personnel_detail.experiences
+    personnel_honors = personnel_detail.honors
     res = {
         "message":{
             "id": _id,
