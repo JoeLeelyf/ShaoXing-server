@@ -20,6 +20,13 @@ class career(models.Model):
     time = models.DateTimeField(default=datetime.datetime.now)
     unit = models.CharField(max_length=255)
     content = models.TextField()
+    salary = models.CharField(max_length=255)
+    jobinfo = models.CharField(max_length=255)
+    contactor = models.CharField(max_length=255)
+    phone = models.CharField(max_length=255)
+    email = models.CharField(max_length=255,blank=True)
+    companyname = models.CharField(max_length=255)
+    companyinfo = models.CharField(max_length=255)
     class Meta:
         db_table = 'career'
     
