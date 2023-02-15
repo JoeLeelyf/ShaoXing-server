@@ -45,3 +45,34 @@ class tech(models.Model):
     
     def __str__(self):
         return self.title
+
+class wxUser(models.Model):
+    id = models.IntegerField(primary_key=True)
+    phone = models.CharField(max_length=30, blank=False, unique=True)
+    name = models.CharField(max_length=30, blank=False)
+    nickname = models.CharField(max_length=30, blank=True)
+    gender = models.CharField(max_length=10, blank=True)
+    age = models.IntegerField(blank=True, null=True)
+    hometown = models.CharField(max_length=30, blank=True)
+    place = models.CharField(max_length=30, blank=True)
+    trade = models.CharField(max_length=30, blank=True)
+    position = models.CharField(max_length=30, blank=True)
+    salary = models.CharField(max_length=30, blank=True)
+    education = models.CharField(max_length=30, blank=True)
+    school = models.CharField(max_length=30, blank=True)
+    positionaltitle = models.CharField(max_length=30, blank=True)
+    countryposition = models.CharField(max_length=30, blank=True)
+    field = models.CharField(max_length=30, blank=True)
+    majorate = models.CharField(max_length=30, blank=True)
+    abroad = models.CharField(max_length=30, blank=True)
+    experience = models.CharField(max_length=30, blank=True)
+    experiences = models.CharField(max_length=30, blank=True)
+    honors = models.CharField(max_length=30, blank=True)
+
+    class Meta:
+        db_table = 'wxUser'
+
+    def __str__(self):
+        return self.name
+    
+    

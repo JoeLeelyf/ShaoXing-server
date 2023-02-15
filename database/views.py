@@ -1,8 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 
-from .models import policy , career, tech
-from WXUser.models import Profile
+from .models import policy , career, tech, wxUser
 
 import json
 # Create your views here.
@@ -187,16 +186,87 @@ def getPersonnelList(request):
         _pageSize = int(rec['_pageSize'])
     else:
         return HttpResponse("Wrong request method!")
-    last_personnel_list = Profile.objects.all.order_by('-age')
+    last_personnel_list = wxUser.objects.all().order_by('-id')[(_page-1)*_pageSize:_page*_pageSize]
     mes_list=[]
     for i in last_personnel_list:
         mes = {
-            
+            "id":i.id,
+            "name":i.name,
+            "manger":i.majorate,
+            "education":i.education,
+            "age":i.age
         }
+        mes_list.append(mes)
+    res = {
+        "message":mes_list,
+        "meta":{
+            "msg":"获取成功",
+            "status":200
+        }
+    }
+    res = json.dumps(res, default=str)
+    return HttpResponse(res)
 
 def getPersonnelDetail(request):
     if request.method == 'POST':
         rec = json.loads(request.body)
+        _id = int(rec['id'])
     else:
         return HttpResponse('Wrong request method!')
+    personnel_detail = wxUser.objects.get(id=_id)
+    personnel_name = wxUser.name
+    personnel_gender = wxUser.gender
+    personnel_age = wxUser.age
+    personnel_hometown = wxUser.hometown
+    personnel_place = wxUser.place
+    personnel_trade = wxUser.trade
+    personnel_position = wxUser.position
+    personnel_salary = wxUser.salary
+    personnel_education = wxUser.education
+    personnel_school = wxUser.school
+    personnel_positionaltitle = wxUser.positionaltitle
+    personnel_countryposition = wxUser.countryposition
+    personnel_field = wxUser.field
+    personnel_majorcate = wxUser.majorate
+    personnel_abroad = wxUser.abroad
+    personnel_experience = wxUser.experience
+    personnel_experiences = wxUser.experiences
+    personnel_honors = wxUser.honors
+    res = {
+        "message":{
+            "id": _id,
+            "basicinfo":{
+                "name":personnel_name,
+                "gender":personnel_gender,
+                "age":personnel_age,
+                "hometown":personnel_hometown,
+            },
+            "searchjobinfo":{
+                "place":personnel_place,
+                "trade":personnel_trade,
+                "position":personnel_position,
+                "salary":personnel_salary
+            },
+            "academicinfo":{
+                "education":personnel_education,
+                "school":personnel_school,
+                "positionaltitle":personnel_positionaltitle,
+                "countryposition":personnel_countryposition,
+                "field":personnel_field,
+                "majorcate":personnel_majorcate,
+                "abroad":personnel_abroad
+            },
+            "jobinfo":{
+                "experience":personnel_experience,
+                "experiences":personnel_experiences,
+                "honors":personnel_honors
+            }
+        },
+        "meta":{
+            "msg":"获取成功",
+            "status":200
+        }
+    }
+    res = json.dumps(res, default=str)
+    return HttpResponse(res)
     

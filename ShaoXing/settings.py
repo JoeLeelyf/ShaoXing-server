@@ -36,7 +36,6 @@ ALLOWED_HOSTS = [
 INSTALLED_APPS = [
     'src',
     'database',
-    'WXUser',
     'rest_framework',
     'django.contrib.admin',
     'django.contrib.auth',
