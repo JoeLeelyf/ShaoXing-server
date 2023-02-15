@@ -167,7 +167,11 @@ def getTechDetail(request):
     tech_status = tech_detail.status
     res = {
         "message":{
-            
+            "title":tech_title,
+            "field":tech_field,
+            "level":tech_level,
+            "time":tech_time,
+            "status":tech_status
         },
         "meta":{
             "msg":"获取成功",
@@ -272,8 +276,10 @@ def getPersonnelDetail(request):
     
 
 # ========================================================
-def getCommentList(status):
-    pass
+def getCommentList(_status,_id):
+    comment_list = []
+    comment_list = comment.objects.filter()
+    return comment_list
 
 def getPolicyCommentList(request):
     if request.method == 'POST':
@@ -281,7 +287,7 @@ def getPolicyCommentList(request):
         _id = int(rec['id'])
     else:
         return HttpResponse("Wrong request method!")
-    comment_list = getCommentList(0)
+    comment_list = getCommentList(0,_id)
     res = {
         "message":comment_list,
         "meta":{
@@ -298,7 +304,7 @@ def getJobCommentList(request):
         _id = int(rec['id'])
     else:
         return HttpResponse("Wrong request method!")
-    comment_list = getCommentList(1)
+    comment_list = getCommentList(1,_id)
     res = {
         "message":comment_list,
         "meta":{
