@@ -277,9 +277,27 @@ def getPersonnelDetail(request):
 
 # ========================================================
 def getCommentList(_status,_id):
+    comment_father_list = []
+    comment_father_list = comment.objects.filter(status=_status).filter(foreignid=_id).order_by('-time')
     comment_list = []
-    comment_list = comment.objects.filter()
-    return comment_list
+    # comment in this list, which status is 0 or 1
+    for i in comment_father_list:
+        comment_list.append(i)
+        comment_list+=comment.objects.filter(status=-1).filter(foreignid=i.id).order_by('-time')
+    mes_list = []
+    for i in comment_list:
+        commenter = wxUser.objects.all().get(id=i.commenterid)
+        mes = {
+            "status": i.status,
+            "commenterid": i.commenterid,
+            "avatar": commenter.avatarUrl,
+            "nickname": commenter.nickname,
+            "replyNickname": commenter.nickname,
+            "createTime": i.time,
+            "content": i.content
+        }
+        mes_list.append(mes)
+    return mes_list
 
 def getPolicyCommentList(request):
     if request.method == 'POST':
@@ -287,9 +305,9 @@ def getPolicyCommentList(request):
         _id = int(rec['id'])
     else:
         return HttpResponse("Wrong request method!")
-    comment_list = getCommentList(0,_id)
+    mes_list = getCommentList(0,_id)
     res = {
-        "message":comment_list,
+        "message":mes_list,
         "meta":{
         "msg":"获取成功",
         "status":200
@@ -315,8 +333,39 @@ def getJobCommentList(request):
     res = json.dumps(res, default=str)
     return HttpResponse(res)
 
+def updateComment(request,isPolicy:bool):
+    if request.method == 'POST':
+        rec = json.loads(request.body)
+        status = int(rec['status'])
+        commenterid = int(rec['userid'])
+        time = rec['time']
+        foreignid = int(rec['preuser'])
+        content = rec['content']
+    else:
+        return HttpResponse('Wrong request method!')
+
+    if status == 1:
+        status = -1
+    elif isPolicy and status == 1:
+        status = 0
+    elif not isPolicy and status == 1:
+        status = 1
+    else:
+        return HttpResponse("ERROR!")
+    
+    new_comment = comment(status=status, commenterid=commenterid, time=time, foreignid=foreignid, content=content)
+    new_comment.save()
+    res = {
+        "meta":{
+            "msg":"评论成功",
+            "status":200
+        }
+    }
+    res = json.dumps(res, default=str)
+    return HttpResponse(res)
+
 def updatePolicyComment(request):
-    pass
+    return updateComment(request, 1)
 
 def updateJobComment(request):
-    pass
+    return updateComment(request, 0)

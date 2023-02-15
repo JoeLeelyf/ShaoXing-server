@@ -3,7 +3,7 @@ import datetime
 
 # Create your models here.
 class policy(models.Model):
-    id = models.IntegerField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=255)
     time = models.DateTimeField(default=datetime.datetime.now)
     unit = models.CharField(max_length=255)
@@ -15,7 +15,7 @@ class policy(models.Model):
         return self.title
 
 class career(models.Model):
-    id = models.IntegerField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=255)
     time = models.DateTimeField(default=datetime.datetime.now)
     unit = models.CharField(max_length=255)
@@ -34,7 +34,7 @@ class career(models.Model):
         return self.title
 
 class tech(models.Model):
-    id = models.IntegerField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=255)
     field = models.CharField(max_length=255)
     level = models.CharField(max_length=255)
@@ -47,7 +47,7 @@ class tech(models.Model):
         return self.title
 
 class wxUser(models.Model):
-    id = models.IntegerField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     avatarUrl = models.URLField(max_length=255)
     phone = models.CharField(max_length=30, blank=False, unique=True)
     name = models.CharField(max_length=30, blank=False)
@@ -78,13 +78,13 @@ class wxUser(models.Model):
     
     
 class comment(models.Model):
-    id = models.IntegerField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     status = models.IntegerField(default=-1,choices=((-1,'comment'),(0,'policy'),(1,'job')))
-    foreignid = models.IntegerField()
-    commenterid = models.IntegerField()
+    foreignid = models.IntegerField() # comment for which id, whether policy, job or another comment
+    commenterid = models.IntegerField() # wxUser who made this comment
     time = models.DateTimeField(default=datetime.datetime.now)
     content = models.TextField()
-    
+
     class Meta:
         db_table = 'comment'
     
