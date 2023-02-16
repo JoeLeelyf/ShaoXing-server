@@ -1,7 +1,9 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 
-from .models import notice
+from .models import notice, ecard
+from database.models import wxUser
+import qrcode
 
 import json
 # Create your views here.
@@ -105,3 +107,50 @@ def centerList(request):
     }
     res= json.dumps(res)
     return HttpResponse(res)
+
+def getEcard(request):
+    #baseUrl = "https://django-59g2-28953-7-1308482024.sh.run.tcloudbase.com/"
+    baseUrl = "http://127.0.0.1:8000/"
+    if request.method != 'POST':
+        res = {
+            "meta":{
+                "msg":"Wrong request method!",
+                "status":405
+            }
+        }
+        return HttpResponse(json.dumps(res, default=str))
+    rec = json.loads(request.body)
+    _phone = rec['phone']
+    user = wxUser.objects.all().get(phone=_phone)
+    print(user)
+    if user.level!="1" and user.level!="2" and user.level!="3":
+        res = {
+            "message":{
+                "level":user.level,
+            },
+            "meta":{
+                "msg":"您无法使用此功能",
+                "status":200
+            }
+        }
+        return HttpResponse(json.dumps(res, default=str))
+    else:
+        if ecard.objects.filter(ownerid=user.id).exists():
+            _ecard = ecard.objects.all().get(ownerid=user.id)
+        else:
+            info = "姓名："+user.name+"\\n"+"级别："+user.level
+            img = qrcode.make(info)
+            img.save("./static/qrphoto/"+str(user.id)+".png")
+            _ecard = ecard.objects.create(ownerid=user.id, imgpath=baseUrl+"/static/qrphoto/"+str(user.id)+".png")
+            _ecard.save()
+        res = {
+            "message":{
+                "level":user.level,
+                "imgurl":_ecard.imgpath
+            },
+            "meta":{
+                "msg":"获取成功",
+                "status":200
+            }
+        }
+        return HttpResponse(json.dumps(res, default=str))

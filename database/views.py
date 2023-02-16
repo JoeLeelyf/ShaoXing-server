@@ -403,7 +403,7 @@ def updateComment(request,isPolicy:bool):
     if request.method == 'POST':
         rec = json.loads(request.body)
         status = int(rec['status'])
-        commenterphoneid = int(rec['phoneid'])
+        commenterphoneid = rec['phoneid']
         time = rec['time']
         foreignid = int(rec['preuser'])
         content = rec['content']

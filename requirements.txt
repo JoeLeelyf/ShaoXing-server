@@ -6,3 +6,4 @@ sqlparse==0.4.2
 djangorestframework_simplejwt==4.4.0
 djangorestframework==3.12.4
 requests==2.26.0
+qrcode==7.4.2
