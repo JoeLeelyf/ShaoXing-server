@@ -259,7 +259,7 @@ def getPersonnelList(request):
 def getPersonnelDetail(request):
     if request.method == 'POST':
         rec = json.loads(request.body)
-        _phone = int(rec['phone'])
+        _phone = rec['phone']
     else:
         res = {
             "meta":{
