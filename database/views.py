@@ -239,7 +239,7 @@ def getPersonnelList(request):
     mes_list=[]
     for i in last_personnel_list:
         mes = {
-            "id":i.id,
+            "phone":i.phone,
             "name":i.name,
             "manger":i.majorate,
             "education":i.education,
@@ -259,7 +259,7 @@ def getPersonnelList(request):
 def getPersonnelDetail(request):
     if request.method == 'POST':
         rec = json.loads(request.body)
-        _id = int(rec['id'])
+        _phone = int(rec['phone'])
     else:
         res = {
             "meta":{
@@ -268,7 +268,16 @@ def getPersonnelDetail(request):
             }
         }
         return HttpResponse(json.dumps(res, default=str))
-    personnel_detail = wxUser.objects.get(id=_id)
+    try:
+        personnel_detail = wxUser.objects.get(phone=_phone)
+    except Exception as e:
+        res = {
+            "meta":{
+                "msg":str(e),
+                "status":400
+            }
+        }
+        return HttpResponse(json.dumps(res))
     personnel_name = personnel_detail.name
     personnel_gender = personnel_detail.gender
     personnel_age = personnel_detail.age
@@ -289,7 +298,7 @@ def getPersonnelDetail(request):
     personnel_honors = personnel_detail.honors
     res = {
         "message":{
-            "id": _id,
+            "phone": _phone,
             "basicinfo":{
                 "name":personnel_name,
                 "gender":personnel_gender,
@@ -328,7 +337,7 @@ def getPersonnelDetail(request):
 # Comment
 # ========================================================
 def getCommentList(_status,_id):
-    comment_father_list = []
+    comment_father_list = [] 
     comment_father_list = comment.objects.filter(status=_status).filter(foreignid=_id).order_by('-time')
     comment_list = []
     # comment in this list, which status is 0 or 1
@@ -340,7 +349,7 @@ def getCommentList(_status,_id):
         commenter = wxUser.objects.all().get(id=i.commenterid)
         mes = {
             "status": i.status,
-            "commenterid": i.commenterid,
+            "commenterid": commenter.phone,
             "avatar": commenter.avatarUrl,
             "nickname": commenter.nickname,
             "replyNickname": commenter.nickname,
@@ -415,8 +424,8 @@ def updateComment(request,isPolicy:bool):
         status = 1
     else:
         return HttpResponse("ERROR!")
-    commenterid = comment.objects.all().get(phone=commenterphoneid)
-    new_comment = comment(status=status, commenterid=commenterid, time=time, foreignid=foreignid, content=content)
+    commenter = comment.objects.all().get(phone=commenterphoneid)
+    new_comment = comment(status=status, commenterid=commenter.id, time=time, foreignid=foreignid, content=content)
     new_comment.save()
     res = {
         "meta":{
