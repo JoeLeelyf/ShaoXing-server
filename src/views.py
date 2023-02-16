@@ -61,7 +61,7 @@ def gonxuList(request):
         {
             "name_cn":"找职业",
             "name_en":"findjob",
-            "image_src":"https://prod-6g0a1d1h5dcb92d9-1308482024.tcloudbaseapp.com/icon/%E4%BC%81%E4%B8%9A.png?sign=4beef620d89a360be6d86d30654af02e&t=1676291609"
+            "image_src":"https://prod-6g0a1d1h5dcb92d9-1308482024.tcloudbaseapp.com/icon/%E5%85%AC%E6%96%87%E5%8C%85.png?sign=b124c3adbd2b6d606af32db4e28bf057&t=1676558951"
         },
         {
             "name_cn":"找人才",
@@ -86,19 +86,19 @@ def centerList(request):
     res = {
         "message":[
         {
-            "name_cn":"站点地图",
-            "name_en":"map",
-            "image_src":"https://prod-6g0a1d1h5dcb92d9-1308482024.tcloudbaseapp.com/icon/%E5%9C%B0%E5%9B%BE%20(1).png?sign=eec13b41742089e5fffe686a40aa5ff4&t=1676291662",
+            "name_cn":"联系方式",
+            "name_en":"contactway",
+            "image_src":"https://prod-6g0a1d1h5dcb92d9-1308482024.tcloudbaseapp.com/icon/%E9%A2%84%E7%BA%A6.png?sign=86ce3129b9aad624d1ab1b4dd4e5ed21&t=1676291692",
         },
         {
-            "name_cn":"站点查询",
-            "name_en":"query",
-            "image_src":"https://prod-6g0a1d1h5dcb92d9-1308482024.tcloudbaseapp.com/icon/%E5%9C%B0%E5%9B%BE.png?sign=0a0a406ab76212a8ce6bc90586920b17&t=1676291678"
+            "name_cn":"龙头企业",
+            "name_en":"excellentcompany",
+            "image_src":"https://prod-6g0a1d1h5dcb92d9-1308482024.tcloudbaseapp.com/icon/%E4%BC%81%E4%B8%9A.png?sign=4beef620d89a360be6d86d30654af02e&t=1676291609"
         },
         {
-            "name_cn":"预约服务",
-            "name_en":"appointment",
-            "image_src":"https://prod-6g0a1d1h5dcb92d9-1308482024.tcloudbaseapp.com/icon/%E9%A2%84%E7%BA%A6.png?sign=86ce3129b9aad624d1ab1b4dd4e5ed21&t=1676291692"
+            "name_cn":"名士通鉴",
+            "name_en":"excellentperson",
+            "image_src":"https://prod-6g0a1d1h5dcb92d9-1308482024.tcloudbaseapp.com/icon/%E6%89%BE%E4%BA%BA%E6%89%8D.png?sign=55d933ff2902e371a2ba266582c566a6&t=1676558887"
         }
     ],
         "meta": {
