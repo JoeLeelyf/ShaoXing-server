@@ -746,3 +746,52 @@ def searchHome(_keyword):
     if searchTech(_keyword)!=[]:
         mes_list += searchPolicy(_keyword)
     return mes_list
+
+
+# CommentNotice
+# ========================================================
+def commentNotice(request):
+    if request.method != 'POST':
+        res = {
+            "meta":{
+                "msg":"Wrong request method!",
+                "status":405
+            }
+        }
+        return HttpResponse(json.dumps(res, default=str))
+    rec = json.loads(request.body)
+    _phone = rec['phone']
+    _userid = wxUser.objects.all().filter(phone=_phone)
+    if _userid.count() == 0:
+        res = {
+            "meta":{
+                "msg":"用户不存在",
+                "status":401.1
+            }
+        }
+        return HttpResponse(json.dumps(res))
+    _user = wxUser.objects.all().get(phone=_phone)
+    _comment_list = comment.objects.all().filter(commenterid=_user.id)
+    _comment_list = _comment_list.order_by('-time')
+    res_list = []
+    for _comment in _comment_list:
+        _res = {
+            "type":_comment.supertype,
+            "articleid":_comment.superid,
+            "nikename":_user.nickname,
+            "time":_comment.time,
+            "avatar":_user.avatarUrl,
+            "content":_comment.content
+        }
+        res_list.append(_res)
+    res = {
+        "message":res_list,
+        "meta":{
+            "msg":"获取评论成功",
+            "status":200
+        }
+    }
+    return HttpResponse(json.dumps(res, default=str))
+
+    
+    

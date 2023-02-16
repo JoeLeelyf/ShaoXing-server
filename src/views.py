@@ -138,9 +138,8 @@ def getEcard(request):
         if ecard.objects.filter(ownerid=user.id).exists():
             _ecard = ecard.objects.all().get(ownerid=user.id)
         else:
-            info = "姓名："+user.name+"\\n"+"级别："+user.level+"\\n"+"电话："+user.phone
+            info = "姓名："+user.name+"级别："+user.level+"电话："+user.phone
             img = qrcode.make(info)
-            print("BASE_DIR:",str(BASE_DIR))
             img.save(str(BASE_DIR) + ("/static/qrphoto/"+str(user.id)+".png"))
             _ecard = ecard.objects.create(ownerid=user.id, imgpath=baseUrl+"/static/qrphoto/"+str(user.id)+".png")
             _ecard.save()
