@@ -109,8 +109,8 @@ def centerList(request):
     return HttpResponse(res)
 
 def getEcard(request):
-    #baseUrl = "https://django-59g2-28953-7-1308482024.sh.run.tcloudbase.com/"
-    baseUrl = "http://127.0.0.1:8000/"
+    baseUrl = "https://django-59g2-28953-7-1308482024.sh.run.tcloudbase.com/"
+    #baseUrl = "http://127.0.0.1:8000/"
     if request.method != 'POST':
         res = {
             "meta":{
