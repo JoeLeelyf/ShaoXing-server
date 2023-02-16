@@ -110,7 +110,9 @@ def centerList(request):
     return HttpResponse(res)
 
 def getEcard(request):
-    baseUrl = "https://django-59g2-28953-7-1308482024.sh.run.tcloudbase.com/"
+    baseUrl = "http://127.0.0.1:8000/"
+    return HttpResponse(str(BASE_DIR))
+    # baseUrl = "https://django-59g2-28953-7-1308482024.sh.run.tcloudbase.com/"
     if request.method != 'POST':
         res = {
             "meta":{
@@ -140,7 +142,8 @@ def getEcard(request):
         else:
             info = "姓名："+user.name+"\\n"+"级别："+user.level+"\\n"+"电话："+user.phone
             img = qrcode.make(info)
-            img.save(BASE_DIR / ("/static/qrphoto/"+str(user.id)+".png"))
+            print("BASE_DIR:",str(BASE_DIR))
+            img.save(str(BASE_DIR) + ("/static/qrphoto/"+str(user.id)+".png"))
             _ecard = ecard.objects.create(ownerid=user.id, imgpath=baseUrl+"/static/qrphoto/"+str(user.id)+".png")
             _ecard.save()
         res = {
