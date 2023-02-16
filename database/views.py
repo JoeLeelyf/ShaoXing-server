@@ -6,6 +6,7 @@ from .models import policy , career, tech, wxUser, comment
 import json
 # Create your views here.
 
+# Policy
 def getPolicyList(request):
     if request.method == 'POST':
         rec = json.loads(request.body)
@@ -67,6 +68,7 @@ def getPolicyDetail(requst):
     res = json.dumps(res, default=str)
     return HttpResponse(res)
 
+# Job/Career
 # ========================================================
 
 def getCareerList(request):
@@ -146,6 +148,7 @@ def getCareerDetail(request):
     res = json.dumps(res, default=str)
     return HttpResponse(res)
 
+# Tech
 # ========================================================
 
 def getTechList(request):
@@ -217,7 +220,7 @@ def getTechDetail(request):
     res = json.dumps(res, default=str)
     return HttpResponse(res)
 
-
+# Personnel
 # ========================================================
 def getPersonnelList(request):
     if request.method == 'POST':
@@ -322,7 +325,7 @@ def getPersonnelDetail(request):
     res = json.dumps(res, default=str)
     return HttpResponse(res)
     
-
+# Comment
 # ========================================================
 def getCommentList(_status,_id):
     comment_father_list = []
@@ -430,7 +433,7 @@ def updatePolicyComment(request):
 def updateJobComment(request):
     return updateComment(request, False)
 
-
+# User
 # ========================================================
 def signup(request):
     try:
@@ -494,7 +497,9 @@ def login(request):
                 "status":401.1
             }
         }
-    elif str(user[0].password) != str(_password):
+        return HttpResponse(json.dumps(res))
+    user = wxUser.objects.all().get(phone=_phone)
+    if str(user.password)!= str(_password):
         res = {
             "meta":{
                 "msg":"密码错误",
@@ -503,6 +508,10 @@ def login(request):
         }
     else:
         res = {
+            "message":{
+                "avatar":user.avatarUrl,
+                "nickname":user.nickname
+            },
             "meta":{
                 "msg":"登录成功",
                 "status":200
