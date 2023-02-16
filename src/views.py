@@ -139,7 +139,7 @@ def getEcard(request):
         else:
             info = "姓名："+user.name+"\\n"+"级别："+user.level
             img = qrcode.make(info)
-            img.save("static/qrphoto/"+str(user.id)+".png")
+            img.save("/static/qrphoto/"+str(user.id)+".png")
             _ecard = ecard.objects.create(ownerid=user.id, imgpath=baseUrl+"/static/qrphoto/"+str(user.id)+".png")
             _ecard.save()
         res = {
