@@ -110,7 +110,7 @@ def centerList(request):
     return HttpResponse(res)
 
 def getEcard(request):
-    baseUrl = "http://127.0.0.1:8000/"
+    # baseUrl = "http://127.0.0.1:8000/"
     return HttpResponse(str(BASE_DIR))
     # baseUrl = "https://django-59g2-28953-7-1308482024.sh.run.tcloudbase.com/"
     if request.method != 'POST':
