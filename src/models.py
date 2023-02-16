@@ -71,4 +71,4 @@ class governmentContact(models.Model):
         db_table = 'governmentContact'
     
     def __str__(self):
-        return self.name
+        return self.contactor

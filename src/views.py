@@ -164,7 +164,6 @@ def contactway(request):
             }
         }
         return HttpResponse(json.dumps(res, default=str))
-    rec = json.loads(request.body)
     mes_list = []
     for i in government.objects.all():
         phoneList = []
@@ -197,7 +196,6 @@ def excellentcompany(request):
             }
         }
         return HttpResponse(json.dumps(res, default=str))
-    rec = json.loads(request.body)
     mes_list = []
     for i in company.objects.all():
         mes_list.append({
@@ -230,7 +228,6 @@ def excellentperson(request):
             }
         }
         return HttpResponse(json.dumps(res, default=str))
-    rec = json.loads(request.body)
     mes_list = []
     for i in person.objects.all():
         mes_list.append({

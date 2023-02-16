@@ -46,9 +46,11 @@ class tech(models.Model):
     def __str__(self):
         return self.title
 
+avatarDefault = "https://mmbiz.qpic.cn/mmbiz/icTdbqWNOwNRna42FI242Lcia07jQodd2FJGIYQfG0LAJGFxM4FbnQP6yfMxBgJ0F3YRqJCJ1aPAK2dQagdusBZg/0"
+
 class wxUser(models.Model):
     id = models.AutoField(primary_key=True)
-    avatarUrl = models.URLField(max_length=255)
+    avatarUrl = models.URLField(max_length=255,default=avatarDefault)
     phone = models.CharField(max_length=30, blank=False, unique=True)
     password = models.CharField(max_length=255)
     name = models.CharField(max_length=30, blank=False)
@@ -82,11 +84,12 @@ class wxUser(models.Model):
     
 class comment(models.Model):
     id = models.AutoField(primary_key=True)
-    isRead = models.BooleanField(default=True)
+    isRead = models.BooleanField(default=False)
+    isReply = models.BooleanField(default=False)
     superid = models.IntegerField() # comment for which id, whether policy, job
     supertype = models.CharField(max_length=255) # comment for which type, whether policy, job or another comment
     status = models.IntegerField(default=-1,choices=((-1,'comment'),(0,'policy'),(1,'job')))
-    foreignid = models.IntegerField() # comment for which id, whether policy, job or another comment
+    preid = models.IntegerField() # comment for which id, whether policy, job or another comment
     commenterid = models.IntegerField() # wxUser who made this comment
     time = models.DateTimeField(default=datetime.datetime.now)
     content = models.TextField()

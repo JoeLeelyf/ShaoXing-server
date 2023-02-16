@@ -338,12 +338,12 @@ def getPersonnelDetail(request):
 # ========================================================
 def getCommentList(_status,_id):
     comment_father_list = [] 
-    comment_father_list = comment.objects.filter(status=_status).filter(foreignid=_id).order_by('-time')
+    comment_father_list = comment.objects.filter(status=_status).filter(preid=_id).order_by('-time')
     comment_list = []
     # comment in this list, which status is 0 or 1
     for i in comment_father_list:
         comment_list.append(i)
-        comment_list+=comment.objects.filter(status=-1).filter(foreignid=i.id).order_by('-time')
+        comment_list+=comment.objects.filter(status=-1).filter(preid=i.id).order_by('-time')
     mes_list = []
     for i in comment_list:
         commenter = wxUser.objects.all().get(id=i.commenterid)
@@ -405,7 +405,7 @@ def updateComment(request,isPolicy:bool):
         status = int(rec['status'])
         commenterphoneid = rec['phoneid']
         time = rec['time']
-        foreignid = rec['preuser']
+        preid = rec['preuser']
         content = rec['content']
         superid = int(rec['superid'])
     else:
@@ -419,25 +419,27 @@ def updateComment(request,isPolicy:bool):
 
     if status == 1:
         status = -1
-        foreignid = wxUser.objects.all().get(phone=commenterphoneid).id
+        preuser = wxUser.objects.all().get(phone=preid)
+        preid = preuser.id
+        comment.objects.all().get(id=preid).isReply = True
+
     elif isPolicy and status == 0:
         status = 0
     elif not isPolicy and status == 0:
         status = 1
     else:
         return HttpResponse("ERROR!")
-    foreignid = int(foreignid)
+    preid = int(preid)
 
     commenter = wxUser.objects.all().get(phone=commenterphoneid)
-    new_comment = comment(status=status, superid=superid,commenterid=commenter.id, time=time, foreignid=foreignid, content=content)
-    
+    new_comment = comment(status=status, superid=superid,commenterid=commenter.id, time=time, preid=preid, content=content)
+
     if isPolicy:
         new_comment.supertype = "policy"
     else:
         new_comment.supertype = "job"
     new_comment.save()
-    if status == -1:
-        former_comment = comment.objects.all().get(id=new_comment.foreignid)
+
     res = {
         "meta":{
             "msg":"评论成功",
@@ -772,8 +774,8 @@ def commentNotice(request):
         return HttpResponse(json.dumps(res, default=str))
     rec = json.loads(request.body)
     _phone = rec['phone']
-    _userid = wxUser.objects.all().filter(phone=_phone)
-    if _userid.count() == 0:
+    _user_list = wxUser.objects.all().filter(phone=_phone)
+    if _user_list.count() == 0:
         res = {
             "meta":{
                 "msg":"用户不存在",
@@ -782,12 +784,12 @@ def commentNotice(request):
         }
         return HttpResponse(json.dumps(res))
     _user = wxUser.objects.all().get(phone=_phone)
-    _comment_list = comment.objects.all().filter(commenterid=_user.id)
+    _comment_list = comment.objects.all().filter(isReply=True,preid=_user.id)
+    print(_comment_list)
     _comment_list = _comment_list.order_by('-time')
     res_list = []
     for _comment in _comment_list:
         _res = {
-            "isread":_comment.isRead,
             "type":_comment.supertype,
             "articleid":_comment.superid,
             "nikename":_user.nickname,
