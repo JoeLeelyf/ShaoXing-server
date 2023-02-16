@@ -549,8 +549,6 @@ def editProfile(request):
             _name = rec['name']
             _gender = rec['gender']
             _age = rec['age']
-            if not _age:
-                _age = 0
             _hometown = rec['hometown']
             _place = rec['place']
             _trade = rec['trade']
@@ -592,24 +590,42 @@ def editProfile(request):
         return HttpResponse(json.dumps(res))
     try:
         user = wxUser.objects.all().get(phone=_phone)
-        user.name = _name
-        user.gender = _gender
-        user.age = _age
-        user.hometown = _hometown
-        user.place = _place
-        user.trade = _trade
-        user.position = _position
-        user.salary = _salary
-        user.education = _education
-        user.school = _school
-        user.positionaltitle = _positionaltitle
-        user.countryposition = _countryposition
-        user.field = _field
-        user.majorate = _majorate
-        user.abroad = _abroad
-        user.experience = _experience
-        user.experiences = _experiences
-        user.honors = _honors
+        if _name:
+            user.name = _name
+        if  _gender:
+            user.gender = _gender
+        if _age:
+            user.age = int(_age)
+        if _hometown:
+            user.hometown = _hometown
+        if _place:
+            user.place = _place
+        if _trade:
+            user.trade = _trade
+        if _position:
+            user.position = _position
+        if _salary:
+            user.salary = _salary
+        if _education:
+            user.education = _education
+        if _school:
+            user.school = _school
+        if _positionaltitle:
+            user.positionaltitle = _positionaltitle
+        if _countryposition:
+            user.countryposition = _countryposition
+        if _field:
+            user.field = _field
+        if _majorate:
+            user.majorate = _majorate
+        if _abroad:
+            user.abroad = _abroad
+        if _experience:
+            user.experience = _experience
+        if _experiences:
+            user.experiences = _experiences
+        if _honors:
+            user.honors = _honors
         user.save()
         res = {
             "meta":{
