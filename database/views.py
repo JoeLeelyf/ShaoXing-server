@@ -405,8 +405,9 @@ def updateComment(request,isPolicy:bool):
         status = int(rec['status'])
         commenterphoneid = rec['phoneid']
         time = rec['time']
-        foreignid = int(rec['preuser'])
+        foreignid = rec['preuser']
         content = rec['content']
+        superid = int(rec['superid'])
     else:
         res = {
             "meta":{
@@ -418,15 +419,25 @@ def updateComment(request,isPolicy:bool):
 
     if status == 1:
         status = -1
+        foreignid = wxUser.objects.all().get(phone=commenterphoneid).id
     elif isPolicy and status == 0:
         status = 0
     elif not isPolicy and status == 0:
         status = 1
     else:
         return HttpResponse("ERROR!")
-    commenter = comment.objects.all().get(phone=commenterphoneid)
-    new_comment = comment(status=status, commenterid=commenter.id, time=time, foreignid=foreignid, content=content)
+    foreignid = int(foreignid)
+
+    commenter = wxUser.objects.all().get(phone=commenterphoneid)
+    new_comment = comment(status=status, superid=superid,commenterid=commenter.id, time=time, foreignid=foreignid, content=content)
+    
+    if isPolicy:
+        new_comment.supertype = "policy"
+    else:
+        new_comment.supertype = "job"
     new_comment.save()
+    if status == -1:
+        former_comment = comment.objects.all().get(id=new_comment.foreignid)
     res = {
         "meta":{
             "msg":"评论成功",
@@ -776,6 +787,7 @@ def commentNotice(request):
     res_list = []
     for _comment in _comment_list:
         _res = {
+            "isread":_comment.isRead,
             "type":_comment.supertype,
             "articleid":_comment.superid,
             "nikename":_user.nickname,
@@ -792,6 +804,3 @@ def commentNotice(request):
         }
     }
     return HttpResponse(json.dumps(res, default=str))
-
-    
-    
