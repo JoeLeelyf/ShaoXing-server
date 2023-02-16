@@ -50,6 +50,7 @@ class wxUser(models.Model):
     id = models.AutoField(primary_key=True)
     avatarUrl = models.URLField(max_length=255)
     phone = models.CharField(max_length=30, blank=False, unique=True)
+    password = models.CharField(max_length=255)
     name = models.CharField(max_length=30, blank=False)
     nickname = models.CharField(max_length=30, blank=True)
     gender = models.CharField(max_length=10, blank=True)

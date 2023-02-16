@@ -337,7 +337,7 @@ def updateComment(request,isPolicy:bool):
     if request.method == 'POST':
         rec = json.loads(request.body)
         status = int(rec['status'])
-        commenterid = int(rec['userid'])
+        commenterphoneid = int(rec['phoneid'])
         time = rec['time']
         foreignid = int(rec['preuser'])
         content = rec['content']
@@ -352,7 +352,7 @@ def updateComment(request,isPolicy:bool):
         status = 1
     else:
         return HttpResponse("ERROR!")
-    
+    commenterid = comment.objects.all().get(phone=commenterphoneid)
     new_comment = comment(status=status, commenterid=commenterid, time=time, foreignid=foreignid, content=content)
     new_comment.save()
     res = {
@@ -369,3 +369,72 @@ def updatePolicyComment(request):
 
 def updateJobComment(request):
     return updateComment(request, False)
+
+
+# ========================================================
+def signup(request):
+    try:
+        if request.method == 'POST':
+            rec = json.loads(request.body)
+            _avatarUrl = rec['avatar']
+            _nickname = rec['nickname']
+            _phone = rec['phone']
+            _password = rec['password']
+        else:
+            res = {
+                "meta":{
+                    "msg":"Wrong request method!",
+                    "status":405
+                }
+            }
+            return HttpResponse(json.dumps(res, default=str))
+    except Exception as e:
+        return HttpResponse(e)
+    if wxUser.objects.all().filter(phone=_phone).count()!=0:
+        return HttpResponse("User already exist!")
+    new_wxUser = wxUser(phone=_phone, password=_password, avatarUrl=_avatarUrl, nickname=_nickname, name = _nickname)
+    new_wxUser.save()
+    res = {
+        "meta":{
+            "msg":"注册成功",
+            "status":200
+        }
+    }
+    res = json.dumps(res, default=str)
+    return HttpResponse(res)
+        
+
+def login(request):
+    try:
+        if request.method == 'POST':
+            rec = json.loads(request.body)
+            _phone = rec['phone']
+            _password = rec['password']
+        else:
+            return HttpResponse('ERROR!')
+    except Exception as e:
+        return HttpResponse(e)
+    user = wxUser.objects.all().filter(phone=_phone)
+    if user.count() == 0:
+        res = {
+            "meta":{
+                "msg":"用户不存在",
+                "status":401.1
+            }
+        }
+    elif str(user[0].password) != str(_password):
+        res = {
+            "meta":{
+                "msg":"密码错误",
+                "status":401.1
+            }
+        }
+    else:
+        res = {
+            "meta":{
+                "msg":"登录成功",
+                "status":200
+            }
+        }
+    res = json.dumps(res)
+    return HttpResponse(res)
