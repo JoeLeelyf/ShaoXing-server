@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 
 from .models import notice, ecard
+from ShaoXing.settings import BASE_DIR
 from database.models import wxUser
 import qrcode
 
@@ -139,7 +140,7 @@ def getEcard(request):
         else:
             info = "姓名："+user.name+"\\n"+"级别："+user.level+"\\n"+"电话："+user.phone
             img = qrcode.make(info)
-            img.save("/static/qrphoto/"+str(user.id)+".png")
+            img.save(BASE_DIR+"/static/qrphoto/"+str(user.id)+".png")
             _ecard = ecard.objects.create(ownerid=user.id, imgpath=baseUrl+"/static/qrphoto/"+str(user.id)+".png")
             _ecard.save()
         res = {
