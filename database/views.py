@@ -405,7 +405,7 @@ def updateComment(request,isPolicy:bool):
         status = int(rec['status'])
         commenterphoneid = rec['phoneid']
         time = rec['time']
-        preid = rec['preuser']
+        preid = rec['preuser'] 
         content = rec['content']
         superid = int(rec['superid'])
     else:
@@ -417,10 +417,8 @@ def updateComment(request,isPolicy:bool):
         }
         return HttpResponse(json.dumps(res, default=str))
 
-    if status == 1:
+    if status == 1: # preid is the id of the pre comment
         status = -1
-        preuser = wxUser.objects.all().get(phone=preid)
-        preid = preuser.id
         comment.objects.all().get(id=preid).isReply = True
 
     elif isPolicy and status == 0:
