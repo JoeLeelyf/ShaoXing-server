@@ -548,7 +548,9 @@ def editProfile(request):
             _phone = rec['phone']
             _name = rec['name']
             _gender = rec['gender']
-            _age = int(rec['age'])
+            _age = rec['age']
+            if not _age:
+                _age = 0
             _hometown = rec['hometown']
             _place = rec['place']
             _trade = rec['trade']
