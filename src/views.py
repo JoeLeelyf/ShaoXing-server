@@ -13,10 +13,10 @@ def swiperList(request):
     res = {
         "message": [
         {
-            "image_src": "https://prod-6g0a1d1h5dcb92d9-1308482024.tcloudbaseapp.com/icon/1155022637513865.jpg?sign=f849b0acc7f997a6e4542e6c888631fa&t=1676292062"
+            "image_src": "https://prod-6g0a1d1h5dcb92d9-1308482024.tcloudbaseapp.com/icon/WechatIMG2.jpeg?sign=6a3a62f58e3d8b8f7ab8705170656a0d&t=1676559401"
         },
         {
-            "image_src": "https://prod-6g0a1d1h5dcb92d9-1308482024.tcloudbaseapp.com/icon/1155022637513865.jpg?sign=f849b0acc7f997a6e4542e6c888631fa&t=1676292062"
+            "image_src": "https://prod-6g0a1d1h5dcb92d9-1308482024.tcloudbaseapp.com/icon/b693-hicsiav7327858.jpg?sign=8df9a9623dc8af7738bbf765b7ef706d&t=1676559381"
         },
         {
             "image_src": "https://prod-6g0a1d1h5dcb92d9-1308482024.tcloudbaseapp.com/icon/1155022637513865.jpg?sign=f849b0acc7f997a6e4542e6c888631fa&t=1676292062"
