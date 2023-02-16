@@ -156,7 +156,7 @@ def getEcard(request):
         return HttpResponse(json.dumps(res, default=str))
 
 def contactway(request):
-    if request.method!='POST':
+    if request.method!='GET':
         res = {
             "meta":{
                 "msg":"Wrong request method!",
@@ -189,7 +189,7 @@ def contactway(request):
     return HttpResponse(json.dumps(res, default=str))
 
 def excellentcompany(request):
-    if request.method!='POST':
+    if request.method!='GET':
         res = {
             "meta":{
                 "msg":"Wrong request method!",
@@ -222,7 +222,7 @@ def excellentcompany(request):
     return HttpResponse(json.dumps(res, default=str))
 
 def excellentperson(request):
-    if request.method!='POST':
+    if request.method!='GET':
         res = {
             "meta":{
                 "msg":"Wrong request method!",
@@ -247,3 +247,14 @@ def excellentperson(request):
         }
     }
     return HttpResponse(json.dumps(res, default=str))
+
+
+
+def getPrivacy(request):
+    detail = "隐私政策\n "
+    detail += "1. 本隐私政策适用于本应用程序（以下简称“本应用”）。\n"
+    detail += "2. 本应用程序不会收集您的任何个人信息，包括但不限于姓名、电话号码、电子邮件地址、身份证号码、银行卡号、微信号、QQ号、微博号、支付宝账号、微信支付账号、支付宝支付账号、银行卡号、银行卡密码、银行卡验证码、银行卡有效期、银行卡安全码、银行卡绑定手机号码、银行卡绑定邮箱、银行卡绑定微信号、银行卡绑定QQ号、银行卡绑定微博号、银行卡绑定支付宝账号、银行卡绑定微信支付账号、银行卡绑定支付宝支付账号、银行卡绑定银行卡号、银行卡绑定银行卡密码、银行卡绑定银行卡验证码、银行卡绑定银行卡有效期、银行卡绑定银行卡安全码、银行卡绑定银行卡绑定手机号码、银行卡绑定银行卡绑定邮箱、银行卡绑定银行卡绑定微信号、银行卡绑定银行卡绑定QQ号、银行卡绑定银行卡绑定微博号、银行卡绑定银行卡绑定支付宝账号、银行卡绑定银行卡绑定微信支付账号、银行卡绑定银行卡绑定支付宝支付账号、银行卡绑定银行卡绑定银行卡号、银行卡绑定银"
+    detail += "行卡绑定银行卡密码、银行卡绑定银行卡绑定银行卡验证码"
+    return HttpResponse(detail)
+
+
