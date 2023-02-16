@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 
-from .models import notice, ecard
+from .models import notice, ecard, company, person, government, governmentContact
 from ShaoXing.settings import BASE_DIR
 from database.models import wxUser
 import qrcode
@@ -154,3 +154,96 @@ def getEcard(request):
             }
         }
         return HttpResponse(json.dumps(res, default=str))
+
+def contactway(request):
+    if request.method!='POST':
+        res = {
+            "meta":{
+                "msg":"Wrong request method!",
+                "status":405
+            }
+        }
+        return HttpResponse(json.dumps(res, default=str))
+    rec = json.loads(request.body)
+    mes_list = []
+    for i in government.objects.all():
+        phoneList = []
+        emailList = []
+        for j in governmentContact.objects.all().filter(governmentid=i.id):
+            if j.contacttype=="phone":
+                phoneList.append(str(j.contactor)+"："+str(j.contact))
+            else:
+                emailList.append(str(j.contactor)+"："+str(j.contact))
+        mes_list.append({
+            "government":i.name,
+            "phone":phoneList,
+            "email":emailList,
+        }) 
+    res = {
+        "message":mes_list,
+        "meta":{
+            "msg":"获取成功",
+            "status":200
+        }
+    }
+    return HttpResponse(json.dumps(res, default=str))
+
+def excellentcompany(request):
+    if request.method!='POST':
+        res = {
+            "meta":{
+                "msg":"Wrong request method!",
+                "status":405
+            }
+        }
+        return HttpResponse(json.dumps(res, default=str))
+    rec = json.loads(request.body)
+    mes_list = []
+    for i in company.objects.all():
+        mes_list.append({
+            "name":i.name,
+            "time":i.time,
+            "master":i.master,
+            "address":i.address,
+            "phone":i.phone,
+            "website":i.website,
+            "email":i.email,
+            "introduce":i.introduce,
+            "photo":i.photo,
+            "project":i.project,
+        })
+    res = {
+        "message":mes_list,
+        "meta":{
+            "msg":"获取成功",
+            "status":200
+        }
+    }
+    return HttpResponse(json.dumps(res, default=str))
+
+def excellentperson(request):
+    if request.method!='POST':
+        res = {
+            "meta":{
+                "msg":"Wrong request method!",
+                "status":405
+            }
+        }
+        return HttpResponse(json.dumps(res, default=str))
+    rec = json.loads(request.body)
+    mes_list = []
+    for i in person.objects.all():
+        mes_list.append({
+            "name":i.name,
+            "unique":i.unique,
+            "photo":i.photo,
+            "introduce":i.introduce,
+        })
+    res = {
+        "message":mes_list,
+        "meta":{
+            "msg":"获取成功",
+            "status":200
+        }
+    }
+    return HttpResponse(json.dumps(res, default=str))
