@@ -643,3 +643,106 @@ def editProfile(request):
         }
         return HttpResponse(json.dumps(res, default=str))
     
+
+# Search
+# ========================================================
+def search(request):
+    if request.method != 'POST':
+        res = {
+            "meta":{
+                "msg":"Wrong request method!",
+                "status":405
+            }
+        }
+        return HttpResponse(json.dumps(res, default=str))
+    rec = json.loads(request.body)
+    _keyword = rec['keyword']
+    _type = rec['type']
+
+    mes_list = []
+    if _type == 'home':
+        mes_list = searchHome(_keyword)
+    elif _type == 'policy':
+        mes_list = searchPolicy(_keyword)
+    elif _type == 'job':
+        mes_list = searchJob(_keyword)
+    elif _type == 'personnel':
+        mes_list = searchPersonnel(_keyword)
+    elif _type == 'tech':
+        mes_list = searchTech(_keyword)
+    else:
+        res = {
+            "meta":{
+                "msg":"Wrong type!",
+                "status":400
+            }
+        }
+        return HttpResponse(json.dumps(res, default=str))
+    res = {
+        "message":mes_list,
+        "meta":{
+            "msg":"搜索成功",
+            "status":200
+        }
+    }
+    return HttpResponse(json.dumps(res, default=str))
+
+def searchPolicy(_keyword):
+    mes_list = []
+    policy_list = policy.objects.all().filter(title__contains=_keyword)
+    for Policy in policy_list:
+        mes = {
+            "id":Policy.id,
+            "title":Policy.title,
+            "type":"policy"
+        }
+        mes_list.append(mes)
+    return mes_list
+
+def searchJob(_keyword):
+    mes_list = []
+    job_list = career.objects.all().filter(title__contains=_keyword)
+    for Job in job_list:
+        mes = {
+            "id":Job.id,
+            "title":Job.title,
+            "type":"job"
+        }
+        mes_list.append(mes)
+    return mes_list
+
+def searchPersonnel(_keyword):
+    mes_list = []
+    personnel_list = wxUser.objects.all().filter(name__contains=_keyword)
+    for Personnel in personnel_list:
+        mes = {
+            "id":Personnel.phone,
+            "title":Personnel.name,
+            "type":"personnel"
+        }
+        mes_list.append(mes)
+    return mes_list
+
+def searchTech(_keyword):
+    mes_list = []
+    tech_list = tech.objects.all().filter(title__contains=_keyword)
+    for Tech in tech_list:
+        mes = {
+            "id":Tech.id,
+            "title":Tech.title,
+            "type":"tech"
+        }
+        mes_list.append(mes)
+    return mes_list
+
+def searchHome(_keyword):
+    mes_list = []
+    if searchJob(_keyword)!=[]:
+        mes_list += searchJob(_keyword)
+    if searchPersonnel(_keyword)!=[]:
+        mes_list += searchPersonnel(_keyword)
+    if searchPolicy(_keyword)!=[]:
+        mes_list += searchPolicy(_keyword)
+    if searchTech(_keyword)!=[]:
+        mes_list += searchPolicy(_keyword)
+    return mes_list
