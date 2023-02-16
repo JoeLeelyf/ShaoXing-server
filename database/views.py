@@ -579,7 +579,6 @@ def editProfile(request):
                 "status":400
             }
         }
-        return HttpResponse(str(e))
     user = wxUser.objects.all().filter(phone=_phone)
     if user.count() == 0:
         res = {
