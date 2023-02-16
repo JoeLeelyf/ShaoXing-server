@@ -17,4 +17,5 @@ urlpatterns = [
     path('comment/job/update', views.updateJobComment, name='updateJobComment'),
     path('signup', views.signup, name='signup'),
     path('login', views.login, name='login'),
+    path('editprofile', views.editProfile, name='editProfile'),
 ]

@@ -486,9 +486,21 @@ def login(request):
             _phone = rec['phone']
             _password = rec['password']
         else:
-            return HttpResponse('ERROR!')
+            res = {
+                "meta":{
+                    "msg":"Wrong request method!",
+                    "status":405
+                }
+            }
+            return HttpResponse(json.dumps(res, default=str))
     except Exception as e:
-        return HttpResponse(e)
+        res = {
+            "meta":{
+                "msg":"Wrong request body!",
+                "status":400
+            }
+        }
+        return HttpResponse(json.dumps(res, default=str))
     user = wxUser.objects.all().filter(phone=_phone)
     if user.count() == 0:
         res = {
@@ -519,3 +531,89 @@ def login(request):
         }
     res = json.dumps(res)
     return HttpResponse(res)
+
+def editProfile(request):
+    try:
+        if request.method == 'POST':
+            rec = json.loads(request.body)
+            _phone = rec['phone']
+            _name = rec['name']
+            _gender = rec['gender']
+            _age = int(rec['age'])
+            _hometown = rec['hometown']
+            _place = rec['place']
+            _trade = rec['trade']
+            _position = rec['position']
+            _salary = rec['salary']
+            _education = rec['education']
+            _school = rec['school']
+            _positionaltitle = rec['positionaltitle']
+            _countryposition = rec['countryposition']
+            _field = rec['field']
+            _majorate = rec['majorate']
+            _abroad = rec['abroad']
+            _experience = rec['experience']
+            _experiences = rec['experiences']
+            _honors = rec['honors']
+        else:
+            res = {
+                "meta":{
+                    "msg":"Wrong request method!",
+                    "status":405
+                }
+            }
+            return HttpResponse(json.dumps(res, default=str))
+    except Exception as e:
+        res = {
+            "meta":{
+                "msg":"Wrong request body!",
+                "status":400
+            }
+        }
+        return HttpResponse(json.dumps(res, default=str))
+    user = wxUser.objects.all().filter(phone=_phone)
+    if user.count() == 0:
+        res = {
+            "meta":{
+                "msg":"用户不存在",
+                "status":401.1
+            }
+        }
+        return HttpResponse(json.dumps(res))
+    try:
+        user = wxUser.objects.all().get(phone=_phone)
+        user.name = _name
+        user.gender = _gender
+        user.age = _age
+        user.hometown = _hometown
+        user.place = _place
+        user.trade = _trade
+        user.position = _position
+        user.salary = _salary
+        user.education = _education
+        user.school = _school
+        user.positionaltitle = _positionaltitle
+        user.countryposition = _countryposition
+        user.field = _field
+        user.majorate = _majorate
+        user.abroad = _abroad
+        user.experience = _experience
+        user.experiences = _experiences
+        user.honors = _honors
+        user.save()
+        res = {
+            "meta":{
+                "msg":"修改简历成功",
+                "status":200
+            }
+        }
+        return HttpResponse(json.dumps(res))
+    except Exception as e:
+        res = {
+            "meta":{
+                "msg":str(e),
+                "status":400
+            }
+        }
+        return HttpResponse(json.dumps(res, default=str))
+    
