@@ -12,7 +12,13 @@ def getPolicyList(request):
         _page = int(rec['_page'])
         _pageSize = int(rec['_pageSize'])
     else:
-        return HttpResponse("Wrong request method!")
+        res = {
+            "meta":{
+                "msg":"Wrong request method!",
+                "status":405
+            }
+        }
+        return HttpResponse(json.dumps(res, default=str))
     last_policy_list = policy.objects.all().order_by('-time')[(_page-1)*_pageSize:_page*_pageSize]
     mes_list=[]
     for i in last_policy_list:
@@ -38,7 +44,13 @@ def getPolicyDetail(requst):
         rec = json.loads(requst.body)
         _id = int(rec['id'])
     else:
-        return HttpResponse("Wrong request method!")
+        res = {
+            "meta":{
+                "msg":"Wrong request method!",
+                "status":405
+            }
+        }
+        return HttpResponse(json.dumps(res, default=str))
     policy_detail = policy.objects.get(id=_id)
     policy_title = policy_detail.title
     policy_content = policy_detail.content
@@ -63,7 +75,13 @@ def getCareerList(request):
         _page = int(rec['_page'])
         _pageSize = int(rec['_pageSize'])
     else:
-        return HttpResponse("Wrong request method!")
+        res = {
+            "meta":{
+                "msg":"Wrong request method!",
+                "status":405
+            }
+        }
+        return HttpResponse(json.dumps(res, default=str))
     last_career_list = career.objects.all().order_by('-time')[(_page-1)*_pageSize:_page*_pageSize]
     mes_list=[]
     for i in last_career_list:
@@ -89,7 +107,13 @@ def getCareerDetail(request):
         rec = json.loads(request.body)
         _id = int(rec['id'])
     else:
-        return HttpResponse("Wrong request method!")
+        res = {
+            "meta":{
+                "msg":"Wrong request method!",
+                "status":405
+            }
+        }
+        return HttpResponse(json.dumps(res, default=str))
     career_detail = career.objects.get(id=_id)
     career_title = career_detail.title
     career_salary = career_detail.salary
@@ -130,7 +154,13 @@ def getTechList(request):
         _page = int(rec['_page'])
         _pageSize = int(rec['_pageSize'])
     else:
-        return HttpResponse("Wrong request method!")
+        res = {
+            "meta":{
+                "msg":"Wrong request method!",
+                "status":405
+            }
+        }
+        return HttpResponse(json.dumps(res, default=str))
     last_tech_list = tech.objects.all().order_by('-time')[(_page-1)*_pageSize:_page*_pageSize]
     mes_list=[]
     for i in last_tech_list:
@@ -158,7 +188,13 @@ def getTechDetail(request):
         rec = json.loads(request.body)
         _id = int(rec['id'])
     else:
-        return HttpResponse("Wrong request method!")
+        res = {
+            "meta":{
+                "msg":"Wrong request method!",
+                "status":405
+            }
+        }
+        return HttpResponse(json.dumps(res, default=str))
     tech_detail = tech.objects.get(id=_id)
     tech_title = tech_detail.title
     tech_field = tech_detail.field
@@ -189,7 +225,13 @@ def getPersonnelList(request):
         _page = int(rec['_page'])
         _pageSize = int(rec['_pageSize'])
     else:
-        return HttpResponse("Wrong request method!")
+        res = {
+            "meta":{
+                "msg":"Wrong request method!",
+                "status":405
+            }
+        }
+        return HttpResponse(json.dumps(res, default=str))
     last_personnel_list = wxUser.objects.all().order_by('-id')[(_page-1)*_pageSize:_page*_pageSize]
     mes_list=[]
     for i in last_personnel_list:
@@ -216,7 +258,13 @@ def getPersonnelDetail(request):
         rec = json.loads(request.body)
         _id = int(rec['id'])
     else:
-        return HttpResponse('Wrong request method!')
+        res = {
+            "meta":{
+                "msg":"Wrong request method!",
+                "status":405
+            }
+        }
+        return HttpResponse(json.dumps(res, default=str))
     personnel_detail = wxUser.objects.get(id=_id)
     personnel_name = personnel_detail.name
     personnel_gender = personnel_detail.gender
@@ -304,7 +352,13 @@ def getPolicyCommentList(request):
         rec = json.loads(request.body)
         _id = int(rec['id'])
     else:
-        return HttpResponse("Wrong request method!")
+        res = {
+            "meta":{
+                "msg":"Wrong request method!",
+                "status":405
+            }
+        }
+        return HttpResponse(json.dumps(res, default=str))
     mes_list = getCommentList(0,_id)
     res = {
         "message":mes_list,
@@ -342,7 +396,13 @@ def updateComment(request,isPolicy:bool):
         foreignid = int(rec['preuser'])
         content = rec['content']
     else:
-        return HttpResponse('Wrong request method!')
+        res = {
+            "meta":{
+                "msg":"Wrong request method!",
+                "status":405
+            }
+        }
+        return HttpResponse(json.dumps(res, default=str))
 
     if status == 1:
         status = -1
@@ -389,9 +449,21 @@ def signup(request):
             }
             return HttpResponse(json.dumps(res, default=str))
     except Exception as e:
-        return HttpResponse(e)
+        res = {
+            "meta":{
+                "msg":"Wrong request body!",
+                "status":400
+            }
+        }
+        return HttpResponse(json.dumps(res, default=str))
     if wxUser.objects.all().filter(phone=_phone).count()!=0:
-        return HttpResponse("User already exist!")
+        res = {
+            "meta":{
+                "msg":"用户已存在",
+                "status":401
+            }
+        }
+        return HttpResponse(json.dumps(res, default=str))
     new_wxUser = wxUser(phone=_phone, password=_password, avatarUrl=_avatarUrl, nickname=_nickname, name = _nickname)
     new_wxUser.save()
     res = {
