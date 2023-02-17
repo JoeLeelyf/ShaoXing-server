@@ -351,7 +351,7 @@ def getPersonnelDetail(request):
 def stackTree(Comment):
     stack = []
     comment_list = []
-    stack.append(comment)
+    stack.append(Comment)
     while len(stack) != 0:
         Comment = stack.pop()
         comment_list.append(Comment)
@@ -365,7 +365,6 @@ def getCommentList(rec_status,rec_id):
     comment_list = []
     # comment in this list, which status is 0 or 1
     for i in comment_father_list:
-        comment_list.append(i)
         comment_list+=stackTree(i)
     mes_list = []
     for i in comment_list:
@@ -829,7 +828,7 @@ def commentNotice(request):
         }
         res_list.append(_res)
     res = {
-        "message":_comment_list, # test
+        "message":_res, # test
         "meta":{
             "msg":"获取评论成功",
             "status":200
