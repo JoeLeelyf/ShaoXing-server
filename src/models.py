@@ -72,12 +72,3 @@ class governmentContact(models.Model):
     
     def __str__(self):
         return self.contactor
-
-class authentication(models.Model):
-    id = models.AutoField(primary_key=True)
-    userid = models.IntegerField(unique=True)
-    class Meta:
-        db_table = 'authentication'
-    
-    def __str__(self):
-        return self.name
