@@ -431,7 +431,7 @@ def updateComment(request,isPolicy:bool):
 
     commenter = wxUser.objects.all().get(phone=commenterphoneid)
     new_comment = comment(status=status, superid=superid,commenterid=commenter.id, time=time, preid=preid, content=content)
-
+    new_comment.save()
     if isPolicy:
         new_comment.supertype = "policy"
     else:
