@@ -360,6 +360,7 @@ def getCommentList(_status,_id):
     for i in comment_list:
         commenter = wxUser.objects.all().get(id=i.commenterid)
         mes = {
+            "id": i.id,
             "status": i.status,
             "commenterid": commenter.phone,
             "avatar": commenter.avatarUrl,
@@ -387,8 +388,8 @@ def getPolicyCommentList(request):
     res = {
         "message":mes_list,
         "meta":{
-        "msg":"获取成功",
-        "status":200
+            "msg":"获取成功",
+            "status":200
         }
     }
     res = json.dumps(res, default=str)
