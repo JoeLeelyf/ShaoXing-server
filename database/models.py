@@ -92,7 +92,7 @@ class wxUser(models.Model):
     
 class comment(models.Model):
     id = models.AutoField(primary_key=True)
-    isRead = models.BooleanField(default=False)
+    isRead = models.BooleanField(default=True)
     isReply = models.BooleanField(default=False)
     superid = models.IntegerField() # comment for which id, whether policy, job
     supertype = models.CharField(max_length=255) # comment for which type, whether policy, job or another comment

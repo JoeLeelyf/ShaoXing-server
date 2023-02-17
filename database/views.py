@@ -837,3 +837,34 @@ def commentNotice(request):
         }
     }
     return HttpResponse(json.dumps(res, default=str))
+
+def judgeRead(request):
+    if request.method != 'POST':
+        res = {
+            "meta":{
+                "msg":"Wrong request method!",
+                "status":405
+            }
+        }
+        return HttpResponse(json.dumps(res, default=str))
+    rec = json.loads(request.body)
+    _id = rec['id']
+    _comment_list = comment.objects.all().filter(id=_id)
+    if _comment_list.count() == 0:
+        res = {
+            "meta":{
+                "msg":"评论不存在",
+                "status":401.1
+            }
+        }
+        return HttpResponse(json.dumps(res))
+    _comment = comment.objects.all().get(id=_id)
+    _comment.isRead = True
+    _comment.save()
+    res = {
+        "meta":{
+            "msg":"修改成功",
+            "status":200
+        }
+    }
+    return HttpResponse(json.dumps(res, default=str))

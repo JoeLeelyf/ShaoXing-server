@@ -15,6 +15,7 @@ urlpatterns = [
     path('comment/job/list', views.getJobCommentList,name='jobCommentList'),
     path('comment/policy/update', views.updatePolicyComment, name='updatePolicyComment'),
     path('comment/job/update', views.updateJobComment, name='updateJobComment'),
+    path('comment/isread',views.judgeRead,name='isRead'),
     path('signup', views.signup, name='signup'),
     path('login', views.login, name='login'),
     path('editprofile', views.editProfile, name='editProfile'),
