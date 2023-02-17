@@ -204,13 +204,25 @@ def getTechDetail(request):
     tech_level = tech_detail.level
     tech_time = tech_detail.time
     tech_status = tech_detail.status
+    tech_stage = tech_detail.stage
+    tech_introduction = tech_detail.introduce
+    tech_type = tech_detail.typeTech
+    tech_master = tech_detail.master
+    tech_phone = tech_detail.phone
+    tech_email = tech_detail.email
     res = {
         "message":{
             "title":tech_title,
             "field":tech_field,
             "level":tech_level,
             "time":tech_time,
-            "status":tech_status
+            "status":tech_status,
+            "stage":tech_stage,
+            "introduce":tech_introduction,
+            "type":tech_type,
+            "master":tech_master,
+            "phone":tech_phone,
+            "email":tech_email
         },
         "meta":{
             "msg":"获取成功",

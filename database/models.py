@@ -26,7 +26,7 @@ class career(models.Model):
     phone = models.CharField(max_length=255)
     email = models.EmailField(max_length=255,blank=True)
     companyname = models.CharField(max_length=255)
-    companyinfo = models.CharField(max_length=255)
+    companyinfo = models.TextField(max_length=255)
     class Meta:
         db_table = 'career'
     
@@ -40,6 +40,14 @@ class tech(models.Model):
     level = models.CharField(max_length=255)
     time = models.DateTimeField(default=datetime.datetime.now)
     status = models.CharField(max_length=255)
+    stage = models.CharField(max_length=255)
+    introduce = models.TextField()
+    companyname = models.CharField(max_length=255)
+    typeTech = models.CharField(max_length=255)
+    master = models.CharField(max_length=255)
+    phone = models.CharField(max_length=255)
+    email = models.EmailField(max_length=255,blank=True)
+
     class Meta:
         db_table = 'tech'
     
