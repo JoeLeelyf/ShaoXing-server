@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 
-from .models import notice, ecard, company, person, government, governmentContact
+from .models import notice, ecard, company, person, government, governmentContact, personUnique
 from ShaoXing.settings import BASE_DIR
 from database.models import wxUser
 import qrcode
@@ -230,9 +230,12 @@ def excellentperson(request):
         return HttpResponse(json.dumps(res, default=str))
     mes_list = []
     for i in person.objects.all():
+        unique_list = []
+        for j in personUnique.objects.all().filter(personid=i.id):
+            unique_list.append(j.unique)
         mes_list.append({
             "name":i.name,
-            "unique":i.unique,
+            "unique":unique_list,
             "photo":i.photo,
             "introduce":i.introduce,
         })

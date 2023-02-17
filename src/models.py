@@ -50,6 +50,16 @@ class person(models.Model):
     def __str__(self):
         return self.name
 
+class personUnique(models.Model):
+    id = models.AutoField(primary_key=True)
+    personid = models.IntegerField()
+    unique = models.CharField(max_length=255)
+    class Meta:
+        db_table = 'personUnique'
+    
+    def __str__(self):
+        return self.unique
+
 class government(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255)
