@@ -29,7 +29,7 @@ class company(models.Model):
     address = models.CharField(max_length=255)
     photo = models.URLField(max_length=255)
     website = models.URLField(max_length=255)
-    introduce = models.TextField()
+    introduce = models.TextField(blank=True)
     project = models.TextField()
     class Meta:
         db_table = 'company'

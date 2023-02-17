@@ -41,7 +41,7 @@ class tech(models.Model):
     time = models.DateTimeField(default=datetime.datetime.now)
     status = models.CharField(max_length=255)
     stage = models.CharField(max_length=255)
-    introduce = models.TextField()
+    introduce = models.TextField(blank=True)
     companyname = models.CharField(max_length=255)
     typeTech = models.CharField(max_length=255)
     master = models.CharField(max_length=255)
