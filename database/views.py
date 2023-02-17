@@ -436,8 +436,9 @@ def updateComment(request,isPolicy:bool):
 
     if status == 1: # preid is the id of the pre comment
         status = -1
-        comment.objects.all().get(id=preid).isReply = True
-
+        pre_comment = comment.objects.all().get(id=preid)
+        pre_comment = True
+        pre_comment.save()
     elif isPolicy and status == 0:
         status = 0
     elif not isPolicy and status == 0:
