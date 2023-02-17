@@ -175,6 +175,7 @@ def contactway(request):
             else:
                 emailList.append(str(j.contactor)+"："+str(j.contact))
         mes_list.append({
+            "address":i.address,
             "government":i.name,
             "phone":phoneList,
             "email":emailList,
@@ -268,7 +269,7 @@ def getAuthentication(request):
     else:
         os.makedirs(os.path.join(BASE_DIR, "static/authentication/"), exist_ok=False)
         img_path = os.path.join(BASE_DIR, "static/authentication/" + img.name)
-        
+
         with open(img_path, 'wb') as f:
             for chunk in img.chunks():
                 f.write(chunk)
