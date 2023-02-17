@@ -12,4 +12,5 @@ urlpatterns = [
     path('mainpage/excellentperson',views.excellentperson,name='industry'),   
     path('mypage/ecard',view=views.getEcard,name='ecard'),
     path('mypage/privacy',view=views.getPrivacy,name='privacy'),
+    path('mypage/authentication',view=views.getAuthentication,name='authentication'),
 ]

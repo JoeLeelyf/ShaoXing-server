@@ -55,7 +55,7 @@ class wxUser(models.Model):
     password = models.CharField(max_length=255)
     name = models.CharField(max_length=30, blank=False)
     nickname = models.CharField(max_length=30, blank=True)
-    level = models.CharField(max_length=1,choices=((1,'A'),(2,'B'),(3,'C'),(4,'D'),(5,'E'),(6,'F')))
+    level = models.CharField(max_length=2,default=6,choices=((1,'A'),(2,'B'),(3,'C'),(4,'D'),(5,'E'),(6,'F')))
     gender = models.CharField(max_length=10, blank=True)
     age = models.IntegerField(blank=True, null=True)
     hometown = models.CharField(max_length=30, blank=True)

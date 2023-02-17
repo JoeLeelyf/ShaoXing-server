@@ -50,16 +50,6 @@ class person(models.Model):
     def __str__(self):
         return self.name
 
-class personUnique(models.Model):
-    id = models.AutoField(primary_key=True)
-    personid = models.IntegerField()
-    unique = models.CharField(max_length=255)
-    class Meta:
-        db_table = 'personUnique'
-    
-    def __str__(self):
-        return self.unique
-
 class government(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255)
@@ -82,3 +72,12 @@ class governmentContact(models.Model):
     
     def __str__(self):
         return self.contactor
+
+class authentication(models.Model):
+    id = models.AutoField(primary_key=True)
+    userid = models.IntegerField(unique=True)
+    class Meta:
+        db_table = 'authentication'
+    
+    def __str__(self):
+        return self.name

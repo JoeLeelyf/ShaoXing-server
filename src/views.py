@@ -1,9 +1,10 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 
-from .models import notice, ecard, company, person, government, governmentContact, personUnique
+from .models import notice, ecard, company, person, government, governmentContact
 from ShaoXing.settings import BASE_DIR
 from database.models import wxUser
+import os, base64, time, datetime
 import qrcode
 
 import json
@@ -230,9 +231,7 @@ def excellentperson(request):
         return HttpResponse(json.dumps(res, default=str))
     mes_list = []
     for i in person.objects.all():
-        unique_list = []
-        for j in personUnique.objects.all().filter(personid=i.id):
-            unique_list.append(j.unique)
+        unique_list = i.unique.split(",")
         mes_list.append({
             "name":i.name,
             "unique":unique_list,
@@ -248,7 +247,41 @@ def excellentperson(request):
     }
     return HttpResponse(json.dumps(res, default=str))
 
-
+def getAuthentication(request):
+    img = request.FILES.get('img')
+    if img is None:
+        res = {
+            "meta":{
+                "msg":"图片不能为空",
+                "status":400
+            }
+        }
+        return HttpResponse(json.dumps(res, default=str))
+    elif not img.name.endswith('.jpg') or not img.name.endswith('.png') or not img.name.endswith(".jpeg"):
+        res = {
+            "meta":{
+                "msg":"图片格式错误",
+                "status":400
+            }
+        }
+        return HttpResponse(json.dumps(res, default=str))
+    else:
+        os.makedirs(os.path.join(BASE_DIR, "static/authentication/"), exist_ok=False)
+        img_path = os.path.join(BASE_DIR, "static/authentication/" + img.name)
+        
+        with open(img_path, 'wb') as f:
+            for chunk in img.chunks():
+                f.write(chunk)
+        res = {
+            "message":{
+                "imgpath":img_path
+            },
+            "meta":{
+                "msg":"上传成功",
+                "status":200
+            }
+        }
+        return HttpResponse(json.dumps(res, default=str))
 
 def getPrivacy(request):
     detail = "隐私政策\n "
