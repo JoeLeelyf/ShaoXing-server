@@ -124,37 +124,25 @@ def getEcard(request):
     _phone = rec['phone']
     user = wxUser.objects.all().get(phone=_phone)
     print(user)
-    if user.level!="1" and user.level!="2" and user.level!="3":
-        res = {
-            "message":{
-                "level":user.level,
-            },
-            "meta":{
-                "msg":"您无法使用此功能",
-                "status":200
-            }
-        }
-        return HttpResponse(json.dumps(res, default=str))
+    if ecard.objects.filter(ownerid=user.id).exists():
+        _ecard = ecard.objects.all().get(ownerid=user.id)
     else:
-        if ecard.objects.filter(ownerid=user.id).exists():
-            _ecard = ecard.objects.all().get(ownerid=user.id)
-        else:
-            info = "姓名："+user.name+"级别："+user.level+"电话："+user.phone
-            img = qrcode.make(info)
-            img.save(str(BASE_DIR) + ("/static/qrphoto/"+str(user.id)+".png"))
-            _ecard = ecard.objects.create(ownerid=user.id, imgpath=baseUrl+"/static/qrphoto/"+str(user.id)+".png")
-            _ecard.save()
-        res = {
-            "message":{
-                "level":user.level,
-                "imgurl":_ecard.imgpath
-            },
-            "meta":{
-                "msg":"获取成功",
-                "status":200
-            }
+        info = "姓名："+user.name+"级别："+user.level+"电话："+user.phone
+        img = qrcode.make(info)
+        img.save(str(BASE_DIR) + ("/static/qrphoto/"+str(user.id)+".png"))
+        _ecard = ecard.objects.create(ownerid=user.id, imgpath=baseUrl+"/static/qrphoto/"+str(user.id)+".png")
+        _ecard.save()
+    res = {
+        "message":{
+            "level":user.level,
+            "imgurl":_ecard.imgpath
+        },
+        "meta":{
+            "msg":"获取成功",
+            "status":200
         }
-        return HttpResponse(json.dumps(res, default=str))
+    }
+    return HttpResponse(json.dumps(res, default=str))
 
 def contactway(request):
     if request.method!='GET':
