@@ -370,11 +370,15 @@ def getCommentList(rec_status,rec_id):
     for i in comment_list:
         commenter = wxUser.objects.all().get(id=i.commenterid)
         status_ret = i.status
+        replyName = ""
         # when the comment is behind comment, the ret status should be 1
         if i.status == -1:
             status_ret = 1
+            preComment = comment.objects.all().get(id=i.preid)
+            replyName = wxUser.objects.all().get(id=preComment.commenterid).nickname
         # when not, return 0
         else:
+            replyName = commenter.nickname
             status_ret = 0
         mes = {
             "id": i.id,
@@ -382,7 +386,7 @@ def getCommentList(rec_status,rec_id):
             "commenterid": commenter.phone,
             "avatar": commenter.avatarUrl,
             "nickname": commenter.nickname,
-            "replyNickname": commenter.nickname,
+            "replyNickname": replyName,
             "createTime": i.time,
             "content": i.content
         }
@@ -814,21 +818,26 @@ def commentNotice(request):
         }
         return HttpResponse(json.dumps(res))
     _user = wxUser.objects.all().get(phone=_phone)
-    _comment_list = comment.objects.all().filter(commenterid=_user.id,isReply=True)
+    _comment_list = comment.objects.all().filter(commenterid=_user.id,isReply=True,isRead=False)
     _comment_list = _comment_list.order_by('-time')
     res_list = []
     for _comment in _comment_list:
-        _res = {
-            "id":_comment.id,
-            "isread":str(_comment.isRead),
-            "type":_comment.supertype,
-            "articleid":_comment.superid,
-            "nickname":_user.nickname,
-            "time":_comment.time,
-            "avatar":_user.avatarUrl,
-            "content":_comment.content
-        }
-        res_list.append(_res)
+        reply_comment_list = comment.objects.all().filter(status=-1,preid=_comment.id)
+        for reply_comment in reply_comment_list:
+            reply_user = wxUser.objects.all().get(id=reply_comment.commenterid)
+            _res = {
+                "id":_comment.id,
+                "isread":str(_comment.isRead),
+                "type":_comment.supertype,
+                "articleid":_comment.superid,
+                "nickname":reply_user.nickname,
+                "time":_comment.time,
+                "avatar":reply_user.avatarUrl,
+                "content":_comment.content
+            }
+            res_list.append(_res)
+        
+        
     res = {
         "message":res_list, # test
         "meta":{
