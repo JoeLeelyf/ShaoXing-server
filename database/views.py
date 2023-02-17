@@ -815,7 +815,7 @@ def commentNotice(request):
         }
         return HttpResponse(json.dumps(res))
     _user = wxUser.objects.all().get(phone=_phone)
-    _comment_list = comment.objects.all().filter(preid=_user.id)
+    _comment_list = comment.objects.all().filter(commenterid=_user.id,isReply=True)
     print(_comment_list)
     _comment_list = _comment_list.order_by('-time')
     res_list = []
