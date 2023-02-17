@@ -451,6 +451,7 @@ def updateComment(request,isPolicy:bool):
         status = -1
         pre_comment = comment.objects.all().get(id=preid)
         pre_comment.isReply = True
+        pre_comment.isRead = False
         pre_comment.save()
     elif isPolicy and status == 0:
         status = 0
@@ -814,14 +815,14 @@ def commentNotice(request):
         return HttpResponse(json.dumps(res))
     _user = wxUser.objects.all().get(phone=_phone)
     _comment_list = comment.objects.all().filter(commenterid=_user.id,isReply=True)
-    print(_comment_list)
     _comment_list = _comment_list.order_by('-time')
     res_list = []
     for _comment in _comment_list:
         _res = {
+            "isread":str(_comment.isRead),
             "type":_comment.supertype,
             "articleid":_comment.superid,
-            "nikename":_user.nickname,
+            "nickname":_user.nickname,
             "time":_comment.time,
             "avatar":_user.avatarUrl,
             "content":_comment.content
