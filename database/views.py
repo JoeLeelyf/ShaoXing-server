@@ -355,7 +355,7 @@ def stackTree(Comment):
     while len(stack) != 0:
         Comment = stack.pop()
         comment_list.append(Comment)
-        stack+=list(comment.objects.filter(status=0).filter(preid=Comment.id).order_by('-time'))
+        stack+=list(comment.objects.filter(status=-1).filter(preid=Comment.id).order_by('-time'))
     return comment_list
         
 
@@ -828,7 +828,7 @@ def commentNotice(request):
         }
         res_list.append(_res)
     res = {
-        "message":_res, # test
+        "message":res_list, # test
         "meta":{
             "msg":"获取评论成功",
             "status":200
