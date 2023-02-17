@@ -819,6 +819,7 @@ def commentNotice(request):
     res_list = []
     for _comment in _comment_list:
         _res = {
+            "id":_comment.id,
             "isread":str(_comment.isRead),
             "type":_comment.supertype,
             "articleid":_comment.superid,
