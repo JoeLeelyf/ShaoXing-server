@@ -348,14 +348,24 @@ def getPersonnelDetail(request):
     
 # Comment
 # ========================================================
-def getCommentList(_status,_id):
+def stackTree(Comment):
+    comment_list = []
+    comment_list = comment.objects.filter(preid=Comment.id).order_by('-time')
+    if len(comment_list) == 0:
+        return []
+    else:
+        for i in comment_list:
+            comment_list+=stackTree(i)
+        return comment_list
+
+def getCommentList(rec_status,rec_id):
     comment_father_list = [] 
-    comment_father_list = comment.objects.filter(status=_status).filter(preid=_id).order_by('-time')
+    comment_father_list = comment.objects.filter(status=rec_status).filter(preid=rec_id).order_by('-time')
     comment_list = []
     # comment in this list, which status is 0 or 1
     for i in comment_father_list:
         comment_list.append(i)
-        comment_list+=comment.objects.filter(status=-1).filter(preid=i.id).order_by('-time')
+        comment_list+=stackTree(i)
     mes_list = []
     for i in comment_list:
         commenter = wxUser.objects.all().get(id=i.commenterid)
@@ -382,7 +392,7 @@ def getCommentList(_status,_id):
 def getPolicyCommentList(request):
     if request.method == 'POST':
         rec = json.loads(request.body)
-        _id = int(rec['id'])
+        rec_id = int(rec['id'])
     else:
         res = {
             "meta":{
@@ -391,7 +401,7 @@ def getPolicyCommentList(request):
             }
         }
         return HttpResponse(json.dumps(res, default=str))
-    mes_list = getCommentList(0,_id)
+    mes_list = getCommentList(0,rec_id)
     res = {
         "message":mes_list,
         "meta":{
@@ -405,10 +415,10 @@ def getPolicyCommentList(request):
 def getJobCommentList(request):
     if request.method == 'POST':
         rec = json.loads(request.body)
-        _id = int(rec['id'])
+        rec_id = int(rec['id'])
     else:
         return HttpResponse("Wrong request method!")
-    comment_list = getCommentList(1,_id)
+    comment_list = getCommentList(1,rec_id)
     res = {
         "message":comment_list,
         "meta":{
