@@ -348,7 +348,7 @@ def getPersonnelDetail(request):
     
 # Comment
 # ========================================================
-def stackTree(comment):
+def stackTree(Comment):
     stack = []
     comment_list = []
     stack.append(comment)
