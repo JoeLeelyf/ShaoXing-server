@@ -355,8 +355,7 @@ def stackTree(comment):
     while len(stack) != 0:
         Comment = stack.pop()
         comment_list.append(Comment)
-        for j in comment.objects.all().filter(preid=Comment.id).order_by('-time'):
-            stack.append(j)
+        stack+=list(comment.objects.filter(status=0).filter(preid=Comment.id).order_by('-time'))
     return comment_list
         
 
