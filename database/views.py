@@ -348,15 +348,17 @@ def getPersonnelDetail(request):
     
 # Comment
 # ========================================================
-def stackTree(Comment):
+def stackTree(comment):
+    stack = []
     comment_list = []
-    comment_list = comment.objects.filter(preid=Comment.id).order_by('-time')
-    if len(comment_list) == 0:
-        return []
-    else:
-        for i in comment_list:
-            comment_list+=stackTree(i)
-        return comment_list
+    stack.append(comment)
+    while len(stack) != 0:
+        Comment = stack.pop()
+        comment_list.append(Comment)
+        for j in comment.objects.filter(preid=Comment.id).order_by('-time'):
+            stack.append(j)
+    return comment_list
+        
 
 def getCommentList(rec_status,rec_id):
     comment_father_list = [] 
