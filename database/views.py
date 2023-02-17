@@ -357,11 +357,15 @@ def getCommentList(_status,_id):
         comment_list.append(i)
         comment_list+=comment.objects.filter(status=-1).filter(preid=i.id).order_by('-time')
     mes_list = []
+    if i.status == 0 or i.status == 1:
+        status_ret=0
+    else:
+        status_ret=1
     for i in comment_list:
         commenter = wxUser.objects.all().get(id=i.commenterid)
         mes = {
             "id": i.id,
-            "status": i.status,
+            "status": status_ret,
             "commenterid": commenter.phone,
             "avatar": commenter.avatarUrl,
             "nickname": commenter.nickname,
